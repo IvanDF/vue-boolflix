@@ -28,8 +28,11 @@
                     @keyup="filterSearch"
                     >
                 <button><i class="fas fa-arrow-right" @keyup.enter="filterSearch" ></i></button>
-                <select>
-                    <option value=""></option>
+                <span>Select your language </span>
+                <select v-model="language">
+                    <option value="it">IT</option>
+                    <option value="en">EN</option>
+                    <option value="de">DE</option>
                 </select>
             </div>
         </header>
@@ -42,9 +45,14 @@
                         v-for="movie in movieList"
                         >
                         <p>film</p>
-                        <li class="title"> <h3> {{ movie.title }} </h3> </li>
-                        <li class="original-title">  {{ movie.original_title }}  </li>
-                        <li class="original-language">  {{ movie.original_language }}  </li>
+                        <li class="title"> <h3>Titolo: {{ movie.title }} </h3> </li>
+                        <li class="original-title">Titolo Originale:  {{ movie.original_title }}  </li>
+                        <li v-if="movie.original_language === movie.original_language" class="original-language" > 
+                            Lingua originale <img :src="`./img/${movie.original_language}.png`" alt="">   
+                        </li>
+                        <li class="original-language" v-else> 
+                            Lingua originale: {{ movie.original_language }}  
+                        </li>
                         <li class="vote-average">
                               <i v-for=" vote in getValutation(movie.vote_average) " class="fas fa-star"></i>  
                               <i v-for=" vote in ( 5 - getValutation(movie.vote_average) ) " class="far fa-star"></i>  
@@ -54,9 +62,11 @@
                         v-for="tv in tvList"
                         >
                         <p>serie tv</p>
-                        <li class="title"> <h3> {{ tv.name }} </h3> </li>
-                        <li class="original-title">  {{ tv.name }}  </li>
-                        <li class="original-language">  {{ tv.original_language }}  </li>
+                        <li class="title"> <h3>Titolo: {{ tv.name }} </h3> </li>
+                        <li class="original-title">Titolo Originale:  {{ tv.name }}  </li>
+                        <li class="original-language"> Lingua originale:
+                             {{ tv.original_language }}  
+                        </li>
                         <li class="vote-average">
                               <i v-for=" vote in getValutation(tv.vote_average) " class="fas fa-star"></i>  
                               <i v-for=" vote in ( 5 - getValutation(tv.vote_average) ) " class="far fa-star"></i>  

@@ -11,7 +11,7 @@ const boolFlix = new Vue ({
         search:'',
         movieList: [],
         tvList: [],
-
+        language: 'it',
     },
 
     methods: {
@@ -29,7 +29,7 @@ const boolFlix = new Vue ({
             axios.get('https://api.themoviedb.org/3/search/movie', {
                 params: {
                     api_key: '60978fe417c91cef357193610fbcdac9',
-                    language: 'it-IT',
+                    language: this.language,
                     query: this.search
 
                 }
