@@ -17,6 +17,7 @@ const boolFlix = new Vue ({
         language: 'it',
         languages:[ 'it', 'en', 'de'],
         filter: 'all',
+        
         loading: false,
     },
 
@@ -26,6 +27,7 @@ const boolFlix = new Vue ({
 
             this.filterSearch();
 
+            this.search = '';
             
         },
         // FILTER SEARCH
@@ -33,9 +35,9 @@ const boolFlix = new Vue ({
 
             this.loading = false;
             
-            // if ( this.search.length >= 3 ) {
+            if ( this.search.length >= 3 ) {
                 this.movies()
-                // }
+                }
             
         },
         // MOVIES
@@ -52,6 +54,7 @@ const boolFlix = new Vue ({
                 this.movieList = valid.data.results;
 
                 this.tvs()
+
             })
             .catch( invalid => {
                 // handle error
@@ -72,7 +75,6 @@ const boolFlix = new Vue ({
                 // handle success
                 this.tvList = valid.data.results;
 
-                this.search = '';
 
                 this.loading = true;
             })
@@ -86,35 +88,15 @@ const boolFlix = new Vue ({
             return Math.ceil( vote / 2 )
         },
         // SET DYNAMICALLY FLAGS
-        checkLanguage(index) {
+        checkLanguage(item) {
 
-
-            for ( let i = 0 ; i < this.languages.length; i++ ) {
-
-                if ( this.movieList[index].original_language == this.languages[i]) {
-                    return true;
-                }
-
-            }
-
-            return false;
+            if(this.languages.includes(item.original_language)){
+                return true;
+              } else {
+                return false;
+              }
 
         },
-        checkLanguage2(index) {
-
-
-            for ( let i = 0 ; i < this.languages.length; i++ ) {
-
-                if ( this.movieList[index].original_language == this.languages[i]) {
-                    return true;
-                }
-
-            }
-
-            return false;
-
-        },
-
     },
 
 });

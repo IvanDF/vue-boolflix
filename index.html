@@ -26,25 +26,26 @@
             <!-- SEARCH BAR -->
             <div class="search">
                 <span>Select your language </span>
-                <select v-model="language" @change="filterSearch">
+                <!-- <select v-model="language" @change="filterSearch">
                     <option value="it">IT</option>
                     <option value="en">EN</option>
                     <option value="de">DE</option>
                     <option value="ja">JA</option>
                     <option value="es">ES</option>
                     <option value="ru">RU</option>
-                </select>
+                </select> -->
                 <input type="text" 
                     placeholder="Search"
                     v-model="search"
+                    @keyup="filterSearch"
                     @keyup.enter="filterSearchDone"
                     >
                 <button @click="filterSearchDone"><i class="fas fa-arrow-right"></i></button>
-                <select v-model="filter" @change="filterSearch">
+                <!-- <select v-model="filter" @change="filterSearch">
                     <option value="all">All</option>
                     <option value="movies">Movies</option>
                     <option value="tvs">TV Series</option>
-                </select>
+                </select> -->
             </div>
         </header>
         <!-- MAIN SECTION -->
@@ -66,7 +67,7 @@
                             </li>
                             <li class="original-title">Titolo Originale: {{ movie.original_title }}
                             </li>
-                            <li v-if="checkLanguage(index)" class="original-language" > 
+                            <li v-if="checkLanguage(movie)" class="original-language" > 
                                 Lingua originale: 
                                 <img :src="`./img/${movie.original_language}.png`" alt="">   
                             </li>
@@ -90,7 +91,7 @@
                                 <h3>Titolo: {{ tv.name }} </h3> 
                             </li>
                             <li class="original-title">Titolo Originale:  {{ tv.name }}  </li>
-                            <li v-if="checkLanguage2(index)" class="original-language" > 
+                            <li v-if="checkLanguage(tv)" class="original-language" > 
                                 Lingua originale: 
                                 <img :src="`./img/${tv.original_language}.png`" alt="">   
                             </li>
