@@ -9,8 +9,8 @@ const boolFlix = new Vue ({
     data: {
 
         search:'',
-
         movieList: [],
+        tvList: [],
 
     },
 
@@ -20,9 +20,8 @@ const boolFlix = new Vue ({
 
             if ( this.search.length >= 3 ) {
                 this.movies()
+                this.tvs()
             }
-
-
 
         },
 
@@ -38,13 +37,35 @@ const boolFlix = new Vue ({
             .then( valid => {
                 // handle success
                 this.movieList = valid.data.results
-                console.log(valid.data.results);
-              })
-              .catch( invalid => {
+            })
+            .catch( invalid => {
                 // handle error
                 console.log(invalid);
-              })
-        }
+            })
+        },
+
+        tvs() {
+            axios.get('https://api.themoviedb.org/3/search/tv', {
+                params: {
+                    api_key: '60978fe417c91cef357193610fbcdac9',
+                    language: 'it-IT',
+                    query: this.search
+
+                }
+            })
+            .then( valid => {
+                // handle success
+                this.tvList = valid.data.results
+            })
+            .catch( invalid => {
+                // handle error
+                console.log(invalid);
+            })
+        },
+
+        getValutation(vote) {
+            return Math.ceil( vote / 2 )
+        },
 
     },
 
