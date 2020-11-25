@@ -22,18 +22,23 @@
         <!-- MAIN HEADER -->
         <header class="main-header">
             <div class="search">
+                <span>Select your language </span>
+                <select v-model="language" @change="filterSearch">
+                    <option value="it">IT</option>
+                    <option value="en">EN</option>
+                    <option value="de">DE</option>
+                    <option value="ja">JA</option>
+                    <option value="es">ES</option>
+                    <option value="da">DA</option>
+                    <option value="sv">SV</option>
+                </select>
                 <input type="text" 
                     placeholder="Search"
                     v-model="search"
                     @keyup="filterSearch"
+                    @keyup.enter="filterSearchDone"
                     >
-                <button><i class="fas fa-arrow-right" @keyup.enter="filterSearch" ></i></button>
-                <span>Select your language </span>
-                <select v-model="language">
-                    <option value="it">IT</option>
-                    <option value="en">EN</option>
-                    <option value="de">DE</option>
-                </select>
+                <button><i class="fas fa-arrow-right" @click="filterSearchDone" ></i></button>
             </div>
         </header>
         <main class="main-section">
@@ -42,7 +47,7 @@
 
                 <div class="item-list">
                     <ul class="item movies"
-                        v-for="movie in movieList"
+                        v-for="(movie, i) in movieList"
                         >
                         <p>film</p>
                         <li class="title"> <h3>Titolo: {{ movie.title }} </h3> </li>
@@ -67,14 +72,17 @@
                         <p>serie tv</p>
                         <li class="title"> <h3>Titolo: {{ tv.name }} </h3> </li>
                         <li class="original-title">Titolo Originale:  {{ tv.name }}  </li>
-                        <li v-if="tv.original_language === tv.original_language" class="original-language" > 
+                        <li v-if="tv.original_language === 'en'" class="original-language" > 
+                            Lingua originale <img :src="`./img/${tv.original_language}.png`" alt="">   
+                        </li>
+                        <li v-else-if="tv.original_language === 'it'" class="original-language" > 
                             Lingua originale <img :src="`./img/${tv.original_language}.png`" alt="">   
                         </li>
                         <li class="original-language" v-else> 
                             Lingua originale: {{ tv.original_language }}  
                         </li>
                         <li class="vote-average">
-                              <i v-for=" vote in getValutation(tv.vote_average) " class="fas fa-star"></i>  
+                              <i v-for=" vote in getValutation(tv.vote_average) " class="fas fa-star"></i>
                               <i v-for=" vote in ( 5 - getValutation(tv.vote_average) ) " class="far fa-star"></i>  
                         </li>
                     </ul>

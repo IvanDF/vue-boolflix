@@ -9,12 +9,20 @@ const boolFlix = new Vue ({
     data: {
 
         search:'',
-        movieList: [],
+        movieList: '',
         tvList: [],
         language: 'it',
     },
 
     methods: {
+
+        filterSearchDone(){
+
+            this.filterSearch();
+
+            this.search = '';
+
+        },
 
         filterSearch(){
 
