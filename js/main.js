@@ -16,29 +16,23 @@ const boolFlix = new Vue ({
         // DEFAULT LANGUAGE
         language: 'it',
         languages:[ 'it', 'en', 'de'],
+
+        // FILTER
         filter: 'all',
-        
-        loading: false,
     },
 
     methods: {
         // FILTER SEARCH AND CLEAN INPUT
         filterSearchDone(){
-
             this.filterSearch();
-
             this.search = '';
-            
         },
         // FILTER SEARCH
         filterSearch(){
-
-            this.loading = false;
-            
             if ( this.search.length >= 3 ) {
                 this.movies()
-                }
-            
+                this.tvs()
+            }
         },
         // MOVIES
         movies() {
@@ -52,9 +46,6 @@ const boolFlix = new Vue ({
             .then( valid => {
                 // handle success
                 this.movieList = valid.data.results;
-
-                this.tvs()
-
             })
             .catch( invalid => {
                 // handle error
@@ -67,16 +58,12 @@ const boolFlix = new Vue ({
                 params: {
                     api_key: '60978fe417c91cef357193610fbcdac9',
                     language: this.language,
-                    query: this.search
-
+                    query: this.search,
                 }
             })
             .then( valid => {
                 // handle success
                 this.tvList = valid.data.results;
-
-
-                this.loading = true;
             })
             .catch( invalid => {
                 // handle error
@@ -88,14 +75,8 @@ const boolFlix = new Vue ({
             return Math.ceil( vote / 2 )
         },
         // SET DYNAMICALLY FLAGS
-        checkLanguage(item) {
-
-            if(this.languages.includes(item.original_language)){
-                return true;
-              } else {
-                return false;
-              }
-
+        checkLanguage( el ) {
+              return this.languages.includes( el.original_language ) ? true : false
         },
     },
 

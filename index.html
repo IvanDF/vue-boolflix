@@ -26,14 +26,14 @@
             <!-- SEARCH BAR -->
             <div class="search">
                 <span>Select your language </span>
-                <!-- <select v-model="language" @change="filterSearch">
+                <select v-model="language" @change="filterSearch">
                     <option value="it">IT</option>
                     <option value="en">EN</option>
                     <option value="de">DE</option>
                     <option value="ja">JA</option>
                     <option value="es">ES</option>
                     <option value="ru">RU</option>
-                </select> -->
+                </select>
                 <input type="text" 
                     placeholder="Search"
                     v-model="search"
@@ -41,24 +41,24 @@
                     @keyup.enter="filterSearchDone"
                     >
                 <button @click="filterSearchDone"><i class="fas fa-arrow-right"></i></button>
-                <!-- <select v-model="filter" @change="filterSearch">
+                <!-- FILTER -->
+                <select v-model="filter" @change="filterSearch">
                     <option value="all">All</option>
                     <option value="movies">Movies</option>
                     <option value="tvs">TV Series</option>
-                </select> -->
+                </select>
             </div>
         </header>
         <!-- MAIN SECTION -->
         <main class="main-section">
             <!-- CONTAINER -->
             <div class="container">
-                <ul class="item-list"
-                    v-if="loading === true"    
+                <ul class="item-list" 
                 >
                     <!-- MOVIES -->
                     <li class="item movies"
                         v-show="filter !== 'tvs'"
-                        v-for="(movie, index) in movieList"
+                        v-for="movie in movieList"
                         >
                         <ul>
                             <p>film</p>
@@ -83,7 +83,7 @@
                     <!-- TV SERIES -->
                     <li class="item tvs"
                         v-show="filter !== 'movies'"
-                        v-for="(tv, index) in tvList"
+                        v-for="tv in tvList"
                         >
                         <ul>
                             <p>serie tv</p>
