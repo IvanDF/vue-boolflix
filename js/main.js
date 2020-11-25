@@ -12,6 +12,10 @@ const boolFlix = new Vue ({
         movieList: [],
         tvList: [],
         language: 'it',
+        langList: [
+            'it',
+            'en',
+        ] 
     },
 
     methods: {
