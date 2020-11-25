@@ -32,8 +32,7 @@
                     <option value="de">DE</option>
                     <option value="ja">JA</option>
                     <option value="es">ES</option>
-                    <option value="da">DA</option>
-                    <option value="sv">SV</option>
+                    <option value="ru">RU</option>
                 </select>
                 <input type="text" 
                     placeholder="Search"
@@ -42,6 +41,11 @@
                     @keyup.enter="filterSearchDone"
                     >
                 <button><i class="fas fa-arrow-right" @click="filterSearchDone" ></i></button>
+                <select v-model="filter" @change="filterSearch">
+                    <option value="all">All</option>
+                    <option value="movies">Movies</option>
+                    <option value="tvs">TV Series</option>
+                </select>
             </div>
         </header>
         <!-- MAIN SECTION -->
@@ -51,6 +55,7 @@
                 <div class="item-list">
                     <!-- MOVIES -->
                     <ul class="item movies"
+                        v-show="filter !== 'tvs'"
                         v-for="(movie, i) in movieList"
                         >
                         <p>film</p>
@@ -73,6 +78,7 @@
                     </ul>
                     <!-- TV SERIES -->
                     <ul class="item tvs"
+                        v-show="filter !== 'movies'"
                         v-for="tv in tvList"
                         >
                         <p>serie tv</p>

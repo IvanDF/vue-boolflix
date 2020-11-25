@@ -12,12 +12,14 @@ const boolFlix = new Vue ({
         // DEFAULT LISTS
         movieList: [],
         tvList: [],
+        all: [],
         // DEFAULT LANGUAGE
         language: 'it',
+        filter: 'all',
     },
 
     methods: {
-        // SEARCH AND CLEAN INPUT
+        // FILTER SEARCH AND CLEAN INPUT
         filterSearchDone(){
 
             this.filterSearch();
