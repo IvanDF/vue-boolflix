@@ -8,6 +8,8 @@
     <link rel="icon" href="">
     <!-- FONT -->
 
+    <!-- FONTAWESOME -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.css'/>
     <!-- MAIN STYLE -->
     <link rel="stylesheet" href="./css/style.css">
     <!-- VUE, DEV. script -->
@@ -20,16 +22,39 @@
         <!-- MAIN HEADER -->
         <header class="main-header">
             <div class="search">
-                <input type="text" placeholder="Search" v-model="search">
-                <button>Search</button>
+                <input type="text" 
+                    placeholder="Search"
+                    v-model="search"
+                    @keyup="filterSearch"
+                    >
+                <button><i class="fas fa-arrow-right" @keyup.enter="filterSearch" ></i></button>
             </div>
         </header>
         <main class="main-section">
-            {{ search }}
+
+            <div class="container">
+
+                <div class="item-list">
+                    <ul class="item"
+                        v-for="movie in movieList"
+                        >
+                        <li class="title"> <h3> {{ movie.title }} </h3> </li>
+                        <li class="title">  {{ movie.original_title }}  </li>
+                        <li class="title">  {{ movie.original_language }}  </li>
+                        <li class="title">  {{ movie.vote_count }}  </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
         </main>
     </div>
 
 
+    <!-- AXIOS -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- MAIN SCRIPT -->
     <script src="./js/main.js"></script>
 </body>
 </html>
