@@ -48,7 +48,7 @@ const boolFlix = new Vue ({
             axios.get('https://api.themoviedb.org/3/search/tv', {
                 params: {
                     api_key: '60978fe417c91cef357193610fbcdac9',
-                    language: 'it-IT',
+                    language: this.language,
                     query: this.search
 
                 }
@@ -65,6 +65,10 @@ const boolFlix = new Vue ({
 
         getValutation(vote) {
             return Math.ceil( vote / 2 )
+        },
+
+        checkLanguage() {
+                   return'en';
         },
 
     },
