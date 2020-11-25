@@ -12,10 +12,6 @@ const boolFlix = new Vue ({
         movieList: [],
         tvList: [],
         language: 'it',
-        langList: [
-            'it',
-            'en',
-        ] 
     },
 
     methods: {
@@ -69,10 +65,6 @@ const boolFlix = new Vue ({
 
         getValutation(vote) {
             return Math.ceil( vote / 2 )
-        },
-
-        checkLanguage() {
-                   return'en';
         },
 
     },
