@@ -15,6 +15,7 @@ const boolFlix = new Vue ({
         all: [],
         // DEFAULT LANGUAGE
         language: 'it',
+        languages:[ 'it', 'en', 'de'],
         filter: 'all',
     },
 
@@ -34,7 +35,7 @@ const boolFlix = new Vue ({
                 this.movies()
                 this.tvs()
             }
-
+            
         },
         // MOVIES
         movies() {
@@ -43,12 +44,12 @@ const boolFlix = new Vue ({
                     api_key: '60978fe417c91cef357193610fbcdac9',
                     language: this.language,
                     query: this.search
-
                 }
             })
             .then( valid => {
                 // handle success
                 this.movieList = valid.data.results
+
             })
             .catch( invalid => {
                 // handle error
@@ -78,6 +79,18 @@ const boolFlix = new Vue ({
         getValutation(vote) {
             return Math.ceil( vote / 2 )
         },
+
+        checkLanguage(index) {
+
+            for ( i = 0 ; i < this.languages.length; i++ ) {
+
+                if ( this.movieList[index].original_language === this.languages[i]) {
+                    return true
+                }
+
+            }
+
+        }
 
     },
 
