@@ -37,7 +37,6 @@
                 <input type="text" 
                     placeholder="Search"
                     v-model="search"
-                    @keyup="filterSearch"
                     @keyup.enter="filterSearchDone"
                     >
                 <button @click="filterSearchDone"><i class="fas fa-arrow-right"></i></button>
@@ -52,11 +51,13 @@
         <main class="main-section">
             <!-- CONTAINER -->
             <div class="container">
-                <ul class="item-list">
+                <ul class="item-list"
+                    v-if="loading === true"    
+                >
                     <!-- MOVIES -->
                     <li class="item movies"
                         v-show="filter !== 'tvs'"
-                        v-for="(movie, i) in movieList"
+                        v-for="(movie, index) in movieList"
                         >
                         <ul>
                             <p>film</p>
@@ -65,21 +66,13 @@
                             </li>
                             <li class="original-title">Titolo Originale: {{ movie.original_title }}
                             </li>
-                            <li v-if="checkLanguage(i)" class="original-language" > 
-                                Lingua originale: <img :src="`./img/${movie.original_language}.png`" alt="">   
+                            <li v-if="checkLanguage(index)" class="original-language" > 
+                                Lingua originale: 
+                                <img :src="`./img/${movie.original_language}.png`" alt="">   
                             </li>
-                            <li v-else="checkLanguage(i)" class="original-language" > 
+                            <li v-else class="original-language" > 
                                 Lingua originale: {{ movie.original_language }}
                             </li>
-                            <!-- <li v-if="movie.original_language === 'en'" class="original-language" > 
-                                Lingua originale <img :src="`./img/${movie.original_language}.png`" alt="">   
-                            </li>
-                            <li v-else-if="movie.original_language === 'it'" class="original-language" > 
-                                Lingua originale <img :src="`./img/${movie.original_language}.png`" alt="">   
-                            </li>
-                            <li class="original-language" v-else> 
-                                Lingua originale: {{ movie.original_language }}  
-                            </li> -->
                             <li class="vote-average">
                                   <i v-for=" vote in getValutation(movie.vote_average) " class="fas fa-star"></i>  
                                   <i v-for=" vote in ( 5 - getValutation(movie.vote_average) ) " class="far fa-star"></i>  
@@ -89,7 +82,7 @@
                     <!-- TV SERIES -->
                     <li class="item tvs"
                         v-show="filter !== 'movies'"
-                        v-for="tv in tvList"
+                        v-for="(tv, index) in tvList"
                         >
                         <ul>
                             <p>serie tv</p>
@@ -97,14 +90,12 @@
                                 <h3>Titolo: {{ tv.name }} </h3> 
                             </li>
                             <li class="original-title">Titolo Originale:  {{ tv.name }}  </li>
-                            <li v-if="tv.original_language === 'en'" class="original-language" > 
-                                Lingua originale <img :src="`./img/${tv.original_language}.png`" alt="">   
+                            <li v-if="checkLanguage2(index)" class="original-language" > 
+                                Lingua originale: 
+                                <img :src="`./img/${tv.original_language}.png`" alt="">   
                             </li>
-                            <li v-else-if="tv.original_language === 'it'" class="original-language" > 
-                                Lingua originale <img :src="`./img/${tv.original_language}.png`" alt="">   
-                            </li>
-                            <li class="original-language" v-else> 
-                                Lingua originale: {{ tv.original_language }}  
+                            <li v-else class="original-language" > 
+                                Lingua originale: {{ tv.original_language }}
                             </li>
                             <li class="vote-average">
                                   <i v-for=" vote in getValutation(tv.vote_average) " class="fas fa-star"></i>

@@ -17,6 +17,7 @@ const boolFlix = new Vue ({
         language: 'it',
         languages:[ 'it', 'en', 'de'],
         filter: 'all',
+        loading: false,
     },
 
     methods: {
@@ -25,16 +26,16 @@ const boolFlix = new Vue ({
 
             this.filterSearch();
 
-            this.search = '';
-
+            
         },
         // FILTER SEARCH
         filterSearch(){
 
-            if ( this.search.length >= 3 ) {
+            this.loading = false;
+            
+            // if ( this.search.length >= 3 ) {
                 this.movies()
-                this.tvs()
-            }
+                // }
             
         },
         // MOVIES
@@ -48,8 +49,9 @@ const boolFlix = new Vue ({
             })
             .then( valid => {
                 // handle success
-                this.movieList = valid.data.results
+                this.movieList = valid.data.results;
 
+                this.tvs()
             })
             .catch( invalid => {
                 // handle error
@@ -68,7 +70,11 @@ const boolFlix = new Vue ({
             })
             .then( valid => {
                 // handle success
-                this.tvList = valid.data.results
+                this.tvList = valid.data.results;
+
+                this.search = '';
+
+                this.loading = true;
             })
             .catch( invalid => {
                 // handle error
@@ -79,18 +85,35 @@ const boolFlix = new Vue ({
         getValutation(vote) {
             return Math.ceil( vote / 2 )
         },
-
+        // SET DYNAMICALLY FLAGS
         checkLanguage(index) {
 
-            for ( i = 0 ; i < this.languages.length; i++ ) {
 
-                if ( this.movieList[index].original_language === this.languages[i]) {
-                    return true
+            for ( let i = 0 ; i < this.languages.length; i++ ) {
+
+                if ( this.movieList[index].original_language == this.languages[i]) {
+                    return true;
                 }
 
             }
 
-        }
+            return false;
+
+        },
+        checkLanguage2(index) {
+
+
+            for ( let i = 0 ; i < this.languages.length; i++ ) {
+
+                if ( this.movieList[index].original_language == this.languages[i]) {
+                    return true;
+                }
+
+            }
+
+            return false;
+
+        },
 
     },
 
