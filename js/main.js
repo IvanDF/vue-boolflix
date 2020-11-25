@@ -9,13 +9,15 @@ const boolFlix = new Vue ({
     data: {
 
         search:'',
-        movieList: '',
+        // DEFAULT LISTS
+        movieList: [],
         tvList: [],
+        // DEFAULT LANGUAGE
         language: 'it',
     },
 
     methods: {
-
+        // SEARCH AND CLEAN INPUT
         filterSearchDone(){
 
             this.filterSearch();
@@ -23,7 +25,7 @@ const boolFlix = new Vue ({
             this.search = '';
 
         },
-
+        // FILTER SEARCH
         filterSearch(){
 
             if ( this.search.length >= 3 ) {
@@ -32,7 +34,7 @@ const boolFlix = new Vue ({
             }
 
         },
-
+        // MOVIES
         movies() {
             axios.get('https://api.themoviedb.org/3/search/movie', {
                 params: {
@@ -51,7 +53,7 @@ const boolFlix = new Vue ({
                 console.log(invalid);
             })
         },
-
+        // TV SERIES
         tvs() {
             axios.get('https://api.themoviedb.org/3/search/tv', {
                 params: {
@@ -70,7 +72,7 @@ const boolFlix = new Vue ({
                 console.log(invalid);
             })
         },
-
+        // SET VOTE FROM 1 TO 5
         getValutation(vote) {
             return Math.ceil( vote / 2 )
         },

@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="./css/style.css">
     <!-- VUE, DEV. script -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <!-- VUE, PRODUCTION script -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script> -->
 </head>
 <body>
 
@@ -21,6 +23,7 @@
     <div id="boolFlix">
         <!-- MAIN HEADER -->
         <header class="main-header">
+            <!-- SEARCH BAR -->
             <div class="search">
                 <span>Select your language </span>
                 <select v-model="language" @change="filterSearch">
@@ -41,17 +44,19 @@
                 <button><i class="fas fa-arrow-right" @click="filterSearchDone" ></i></button>
             </div>
         </header>
+        <!-- MAIN SECTION -->
         <main class="main-section">
-
+            <!-- CONTAINER -->
             <div class="container">
-
                 <div class="item-list">
+                    <!-- MOVIES -->
                     <ul class="item movies"
                         v-for="(movie, i) in movieList"
                         >
                         <p>film</p>
                         <li class="title"> <h3>Titolo: {{ movie.title }} </h3> </li>
-                        <li class="original-title">Titolo Originale:  {{ movie.original_title }}  </li>
+                        <li class="original-title">Titolo Originale: {{ movie.original_title }}
+                        </li>
                         <li v-if="movie.original_language === 'en'" class="original-language" > 
                             Lingua originale <img :src="`./img/${movie.original_language}.png`" alt="">   
                         </li>
@@ -66,6 +71,7 @@
                               <i v-for=" vote in ( 5 - getValutation(movie.vote_average) ) " class="far fa-star"></i>  
                         </li>
                     </ul>
+                    <!-- TV SERIES -->
                     <ul class="item tvs"
                         v-for="tv in tvList"
                         >
@@ -86,14 +92,10 @@
                               <i v-for=" vote in ( 5 - getValutation(tv.vote_average) ) " class="far fa-star"></i>  
                         </li>
                     </ul>
-
                 </div>
-
             </div>
-
         </main>
     </div>
-
 
     <!-- AXIOS -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
