@@ -28,22 +28,40 @@
         <!-- MAIN HEADER -->
         <header class="main-header">
             <div class="nav-menu">
-                <img class="header-logo" src="./img/boolflix.svg" alt="BoolFlix">
-                <ul class="nav">
+                <img class="nav-logo" src="./img/boolflix-light.svg" alt="BoolFlix">
+                <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="#" @click="showAll"> Home </a>
+                        <a href="#" @click="showAll">
+                            <i class="fas fa-home"></i>
+                            <span> Home </span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" @click="showMovie"> Movies </a>
+                        <a href="#" @click="showMovie">
+                            <i class="fas fa-film"></i>
+                            <span> Movies </span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" @click="showTvs"> TV Series </a>
+                        <a href="#" @click="showTvs">
+                            <i class="fas fa-tv"></i>
+                            <span> TV Series </span>
+                        </a>
                     </li>
                 </ul>
             </div>
-            <!-- SEARCH BAR -->
+            <!-- SEARCH SECTION -->
             <div class="search">
-                <span>Select your language </span>
+                <span class="search-bar">
+                    <input type="text" 
+                    placeholder="Search"
+                    v-model="search"
+                    autofocus
+                    @keyup="filterSearch"
+                    @keyup.enter="filterSearchDone"
+                    >
+                    <button class="btn-search" @click="filterSearchDone"></button>
+                </span>
                 <select v-model="language" @change="filterSearch">
                     <option value="it">IT</option>
                     <option value="en">EN</option>
@@ -52,82 +70,84 @@
                     <option value="es">ES</option>
                     <option value="ru">RU</option>
                 </select>
-                <input type="text" 
-                    placeholder="Search"
-                    v-model="search"
-                    autofocus
-                    @keyup="filterSearch"
-                    @keyup.enter="filterSearchDone"
-                    >
-                <button @click="filterSearchDone"><i class="fas fa-arrow-right"></i></button>
             </div>
         </header>
         <!-- MAIN SECTION -->
         <main class="main-section">
-            <h2 class="media-title">FILMS</h2>
-            <div class="movies-list">
+            <h2 class="media-category" v-if="moviesVisible">FILMS</h2>
+            <div class="movies-list"
+                v-if="moviesVisible"
+            >
                 <!-- MOVIES -->
-                <ul class="media movies"
-                    v-show="moviesVisible"
-                    v-for="movie in movieList"
+                <ul v-for="( movie, index ) in movieList"
+                    :class="['media movies', indexMovies === index ? 'more-info' : '']"
                     >
                     <div class="img-container">
                         <img v-if="movie.poster_path" :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`" :alt="movie.original_title">
                         <img v-else src="https://www.altavod.com/assets/images/poster-placeholder.png" :alt="movie.original_title">
                     </div>
-                    <!-- <li class="title"> 
-                        <h3>{{ movie.title }}</h3> 
-                    </li>
-                    <li class="original-title">
-                        <small>
-                            {{ movie.original_title }}
-                        </small>
-                    </li>
-                    <li v-if="checkLanguage(movie)" class="original-language" > 
-                        <img class="flag" :src="`./img/${movie.original_language}.png`" :alt="movie.original_language">   
-                    </li>
-                    <li v-else class="original-language" > 
-                        Lingua originale: {{ movie.original_language }}
-                    </li>
-                    <li class="vote-average">
-                        <i v-for=" vote in getValutation(movie.vote_average) " class="fas fa-star"></i>
-                        <i v-for=" vote in ( 5 - getValutation(movie.vote_average) ) " class="far fa-star"></i>
-                    </li> -->
-                    <div class="description">
+                    <div class="hover-info">
+                        <li class="media-title"> 
+                            <h3>{{ movie.title }}</h3> 
+                        </li>
+                        <li class="original-title">
+                            <small>
+                                {{ movie.original_title }}
+                            </small>
+                        </li>
+                        <li v-if="checkLanguage(movie)" class="original-language" > 
+                            <img class="flag" :src="`./img/${movie.original_language}.png`" :alt="movie.original_language">   
+                        </li>
+                        <li v-else class="original-language" > 
+                            Original language: {{ movie.original_language }}
+                        </li>
+                        <li class="vote-average">
+                            <i v-for=" vote in getValutation(movie.vote_average) " class="fas fa-star"></i>
+                            <i v-for=" vote in ( 5 - getValutation(movie.vote_average) ) " class="far fa-star"></i>
+                        </li>
+                        <h5 class="cta-description" @click="indexActiveMovies(index)" v-if="movie.overview" >Read more ></h5>
+                    </div>
+                    <!-- <div class="dsc-bg"> -->
+                        <div class="description" v-if="movie.overview"  @click="indexActiveMovies(index)">
+                    <!-- </div> -->
                         {{ movie.overview }} 
                     </div> 
                 </ul>
             </div>
-            <h2 class="media-title">TV SERIES</h2>
-            <div class="tvs-list">
+            <h2 class="media-category" v-if="tvsVisible">TV SERIES</h2>
+            <div class="tvs-list"
+                v-if="tvsVisible"
+            >
                 <!-- TV SERIES -->
-                <ul class="media tvs"
-                    v-show="tvsVisible"
-                    v-for="tv in tvList"
+                <ul v-for="(tv, index) in tvList"
+                    :class="['media tvs', indexTvs === index ? 'more-info' : '' ]"
                     >
                     <div class="img-container">
                         <img v-if="tv.poster_path" :src="`https://image.tmdb.org/t/p/w342${tv.poster_path}`" :alt="tv.original_title">
                         <img v-else src="https://www.altavod.com/assets/images/poster-placeholder.png" :alt="tv.original_title">
                     </div>
-                    <!-- <li class="title"> 
-                        <h3>{{ tv.name }} </h3> 
-                    </li>
-                    <li class="original-title">
-                        <small>
-                            {{ tv.original_title }}
-                        </small>
-                    </li>                            
-                    <li v-if="checkLanguage(tv)" class="original-language" > 
-                        <img class="flag" :src="`./img/${tv.original_language}.png`" :alt="tv.original_language">   
-                    </li>
-                    <li v-else class="original-language" >
-                        Lingua originale: {{ tv.original_language }}
-                    </li>
-                    <li class="vote-average">
-                        <i v-for=" vote in getValutation(tv.vote_average) " class="fas fa-star"></i>
-                        <i v-for=" vote in ( 5 - getValutation(tv.vote_average) ) " class="far fa-star"></i>
-                    </li>-->
-                    <div class="description">
+                    <div class="hover-info">
+                        <li class="media-title"> 
+                            <h3>{{ tv.name }} </h3> 
+                        </li>
+                        <li class="original-title">
+                            <small>
+                                {{ tv.original_title }}
+                            </small>
+                        </li>                            
+                        <li v-if="checkLanguage(tv)" class="original-language" > 
+                            <img class="flag" :src="`./img/${tv.original_language}.png`" :alt="tv.original_language">   
+                        </li>
+                        <li v-else class="original-language" >
+                            Original language: {{ tv.original_language }}
+                        </li>
+                        <li class="vote-average">
+                            <i v-for=" vote in getValutation(tv.vote_average) " class="fas fa-star"></i>
+                            <i v-for=" vote in ( 5 - getValutation(tv.vote_average) ) " class="far fa-star"></i>
+                        </li>
+                        <h5 class="cta-description" @click="indexActiveTvs(index)" v-if="tv.overview" >Read more ></h5>
+                    </div>
+                    <div class="description" v-if="tv.overview" @click="indexActiveTvs(index)">
                         {{ tv.overview }} 
                     </div> 
                 </ul>

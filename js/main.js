@@ -12,7 +12,7 @@ const boolFlix = new Vue ({
         // DEFAULT LISTS
         movieList: [],
         tvList: [],
-        all: [],
+        allStarred: [],
         // DEFAULT LANGUAGE
         language: 'it',
         languages:[ 'it', 'en', 'de'],
@@ -22,9 +22,30 @@ const boolFlix = new Vue ({
 
         tvsVisible: true,
         moviesVisible: true,
+
+        indexTvs: '',
+        indexMovies: '',
+
+        provola: false,
     },
 
     methods: {
+        indexActiveTvs(index) {
+            if ( this.indexTvs === index ) {
+                this.indexTvs = ''
+            } else {
+                this.indexTvs = index
+            }
+            this.indexMovies = ''
+        },
+        indexActiveMovies(index) {
+            if ( this.indexMovies === index ) {
+                this.indexMovies = ''
+            } else {
+                this.indexMovies = index
+            }
+            this.indexTvs = ''
+        },
         // FILTER SEARCH AND CLEAN INPUT
         filterSearchDone(){
             this.filterSearch();
@@ -49,6 +70,10 @@ const boolFlix = new Vue ({
             .then( valid => {
                 // handle success
                 this.movieList = valid.data.results;
+
+                this.movieList.forEach( el => {
+                    
+                });
             })
             .catch( invalid => {
                 // handle error
@@ -92,7 +117,7 @@ const boolFlix = new Vue ({
         showTvs() {
             this.moviesVisible = false
             this.tvsVisible = true
-        }
+        },
     },
 
 });
