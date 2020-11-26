@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BoolFlix</title>
     <!-- ICON -->
-    <link rel="icon" href="">
+    <link rel="icon" href="./img/boolflix.svg">
     <!-- FONT -->
 
     <!-- FONTAWESOME -->
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.css'/>
+    <!-- NORMALIZE / reset style -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css'/>
+    <!-- UTILITIES -->
+    <link rel="stylesheet" href="./css/utilities.css">
     <!-- MAIN STYLE -->
     <link rel="stylesheet" href="./css/style.css">
     <!-- VUE, DEV. script -->
@@ -23,6 +27,7 @@
     <div id="boolFlix">
         <!-- MAIN HEADER -->
         <header class="main-header">
+            <h1>LOGO</h1>
             <!-- SEARCH BAR -->
             <div class="search">
                 <span>Select your language </span>
@@ -37,13 +42,14 @@
                 <input type="text" 
                     placeholder="Search"
                     v-model="search"
+                    autofocus
                     @keyup="filterSearch"
                     @keyup.enter="filterSearchDone"
                     >
                 <button @click="filterSearchDone"><i class="fas fa-arrow-right"></i></button>
                 <!-- FILTER -->
                 <select v-model="filter" @change="filterSearch">
-                    <option value="all">All</option>
+                    <option value="all">Home</option>
                     <option value="movies">Movies</option>
                     <option value="tvs">TV Series</option>
                 </select>
@@ -53,58 +59,71 @@
         <main class="main-section">
             <!-- CONTAINER -->
             <div class="container">
-                <ul class="item-list" 
+                <div class="media-list" 
                 >
                     <!-- MOVIES -->
-                    <li class="item movies"
+                    <ul class="media movies"
                         v-show="filter !== 'tvs'"
                         v-for="movie in movieList"
                         >
-                        <ul>
-                            <p>film</p>
-                            <li class="title"> 
-                                <h3>Titolo: {{ movie.title }} </h3> 
-                            </li>
-                            <li class="original-title">Titolo Originale: {{ movie.original_title }}
-                            </li>
-                            <li v-if="checkLanguage(movie)" class="original-language" > 
-                                Lingua originale: 
-                                <img :src="`./img/${movie.original_language}.png`" alt="">   
-                            </li>
-                            <li v-else class="original-language" > 
-                                Lingua originale: {{ movie.original_language }}
-                            </li>
-                            <li class="vote-average">
-                                  <i v-for=" vote in getValutation(movie.vote_average) " class="fas fa-star"></i>  
-                                  <i v-for=" vote in ( 5 - getValutation(movie.vote_average) ) " class="far fa-star"></i>  
-                            </li>
-                        </ul>
-                    </li>
+                        <div class="media-img">
+                            <img v-if="movie.poster_path" :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`" :alt="movie.original_title">
+                            <img v-else src="https://www.altavod.com/assets/images/poster-placeholder.png" :alt="movie.original_title">
+                        </div>
+                        <li class="title"> 
+                            <h3>{{ movie.title }}</h3> 
+                        </li>
+                        <li class="original-title">
+                            <small>
+                                {{ movie.original_title }}
+                            </small>
+                        </li>
+                        <li v-if="checkLanguage(movie)" class="original-language" > 
+                            <img class="flag" :src="`./img/${movie.original_language}.png`" :alt="movie.original_language">   
+                        </li>
+                        <li v-else class="original-language" > 
+                            Lingua originale: {{ movie.original_language }}
+                        </li>
+                        <li class="vote-average">
+                            <i v-for=" vote in getValutation(movie.vote_average) " class="fas fa-star"></i>
+                            <i v-for=" vote in ( 5 - getValutation(movie.vote_average) ) " class="far fa-star"></i>
+                        </li>
+                        <div class="description">
+                            {{ movie.overview }} 
+                        </div>
+                    </ul>
                     <!-- TV SERIES -->
-                    <li class="item tvs"
+                    <ul class="media tvs"
                         v-show="filter !== 'movies'"
                         v-for="tv in tvList"
                         >
-                        <ul>
-                            <p>serie tv</p>
-                            <li class="title"> 
-                                <h3>Titolo: {{ tv.name }} </h3> 
-                            </li>
-                            <li class="original-title">Titolo Originale:  {{ tv.name }}  </li>
-                            <li v-if="checkLanguage(tv)" class="original-language" > 
-                                Lingua originale: 
-                                <img :src="`./img/${tv.original_language}.png`" alt="">   
-                            </li>
-                            <li v-else class="original-language" > 
-                                Lingua originale: {{ tv.original_language }}
-                            </li>
-                            <li class="vote-average">
-                                  <i v-for=" vote in getValutation(tv.vote_average) " class="fas fa-star"></i>
-                                  <i v-for=" vote in ( 5 - getValutation(tv.vote_average) ) " class="far fa-star"></i>  
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                        <div class="media-img">
+                            <img v-if="tv.poster_path" :src="`https://image.tmdb.org/t/p/w342${tv.poster_path}`" :alt="tv.original_title">
+                            <img v-else src="https://www.altavod.com/assets/images/poster-placeholder.png" :alt="tv.original_title">
+                        </div>
+                        <li class="title"> 
+                            <h3>{{ tv.name }} </h3> 
+                        </li>
+                        <li class="original-title">
+                            <small>
+                                {{ tv.original_title }}
+                            </small>
+                        </li>                            
+                        <li v-if="checkLanguage(tv)" class="original-language" > 
+                            <img class="flag" :src="`./img/${tv.original_language}.png`" :alt="tv.original_language">   
+                        </li>
+                        <li v-else class="original-language" >
+                            Lingua originale: {{ tv.original_language }}
+                        </li>
+                        <li class="vote-average">
+                            <i v-for=" vote in getValutation(tv.vote_average) " class="fas fa-star"></i>
+                            <i v-for=" vote in ( 5 - getValutation(tv.vote_average) ) " class="far fa-star"></i>
+                        </li>
+                        <div class="description">
+                            {{ tv.overview }} 
+                        </div>
+                    </ul>
+                </div>
             </div>
         </main>
     </div>

@@ -1,0 +1,18 @@
+/* GENERAL SETTINGS */
+
+/* TYPHOGRAPHY */
+
+h3 {
+    font-size: 24px;
+}
+
+small {
+    font-size: 18px;
+    color: rgba(0, 0, 0, .7);
+}
+
+/* LISTS */
+
+ul {
+    list-style-type: none;
+}

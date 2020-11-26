@@ -19,7 +19,6 @@ const boolFlix = new Vue ({
 
         // FILTER
         filter: 'all',
-    },
 
     methods: {
         // FILTER SEARCH AND CLEAN INPUT
