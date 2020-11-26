@@ -18,7 +18,11 @@ const boolFlix = new Vue ({
         languages:[ 'it', 'en', 'de'],
 
         // FILTER
-        filter: 'all',
+        filterSelected: 'all',
+
+        tvsVisible: true,
+        moviesVisible: true,
+    },
 
     methods: {
         // FILTER SEARCH AND CLEAN INPUT
@@ -77,6 +81,18 @@ const boolFlix = new Vue ({
         checkLanguage( el ) {
               return this.languages.includes( el.original_language ) ? true : false
         },
+        showAll() {
+          this.moviesVisible = true
+          this.tvsVisible = true
+        },
+        showMovie() {
+            this.moviesVisible = true
+            this.tvsVisible = false
+        },
+        showTvs() {
+            this.moviesVisible = false
+            this.tvsVisible = true
+        }
     },
 
 });
