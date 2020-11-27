@@ -65,10 +65,17 @@
         <!-- MAIN SECTION -->
         <main class="main-section">
 
+            <!-- <div class="genre">
+                <select v-model="genreSelected" @change="ciao">
+                    <option value="all" disabled> Seleziona il genrere </option>
+                    <option v-for="el in allGenres" :value="el.id"> {{el.name}} </option>
+                </select>
+            </div> -->
+
             <!-- FILMS -->
             <div class="media-row" v-show=" filterContent !== 'serie tv' ">
                 <div class="media-container">
-                    <h4>FILMS</h4>
+                    <h4 v-show=" filmList !== null " >FILMS</h4>
                     <div class="media-slider">
                         <div class="media">
                             <div v-for="(media, index) in filmList" :class="['media-item', indexFilm === index ? 'more-info' : '']">
@@ -106,7 +113,7 @@
             <!-- TV SERIES -->
             <div class="media-row" v-show=" filterContent !== 'film' ">
                 <div class="media-container">
-                    <h4>TV SERIES</h4>
+                    <h4 v-show=" tvsList !== null ">TV SERIES</h4>
                     <div class="media-slider">
                         <div class="media">
                             <div v-for="(media, index) in tvsList" :class="['media-item', indexTvs === index ? 'more-info' : '']">

@@ -10,8 +10,6 @@ const boolFlix = new Vue ({
 
         // HEADER INDEX
         navIndex: '',
-        // LANGUAGES
-        lang: 'it',
 
         // HEADER MENU
         headerMenu: [
@@ -28,37 +26,49 @@ const boolFlix = new Vue ({
                 icon: 'fas fa-tv',
             },
             {
-                item: 'Genere',
-                icon: 'fas fa-sort-amount-down-alt',
-                dropdown: []
-            },
-            {
                 item: 'Lingua',
                 icon: 'fas fa-language',
-                dropdown: [ 'IT', 'EN', 'DE', ]
+                dropdown: [ 'IT', 'EN', 'DE', 'JA', 'RU' ]
             },
         ],
-
-        filterContent: '',
-
-        // RESET ARRAY
-        filmList: null,
-        tvsList: null,
-
-        indexFilm: '',
-        indexTvs: '',
-
-        // FLAGS
-        languages:[ 'it', 'en', 'de'],
 
         // SET SEARCH INPUT
         search: '',
 
+        filterContent: '',
 
+        // API CONTENT
+
+        // LANGUAGES
+        lang: 'it',
+
+        // ARRAYAS
+        filmList: null,
+        tvsList: null,
+        
+        // MEDIA ELEMENTS
+        indexFilm: '',
+        indexTvs: '',
+
+        allGenres: [],
+        genreSelected: 'All',
+
+
+        // FLAGS
+        languages:[ 'it', 'en', 'de'],
 
     },
 
     created() {
+
+        this.getApiGenres('genre/movie/list');
+        this.getApiGenres('genre/tv/list');
+
+        setTimeout(() => {
+            this.headerMenu.dropdownGenre = this.allGenres
+            console.log(this.allGenres);
+        }, 300);
+
     },
 
     methods: {
@@ -69,13 +79,31 @@ const boolFlix = new Vue ({
                 this.tvs()
             }
         },
-        // POPOLATING FILM LIST
+        // POPULATING FILM LIST
         films() {
             this.getApi('search/movie')
         },
-        // POPOLATING TVS LIST
+        // POPULATING TVS LIST
         tvs() {
             this.getApi('search/tv')
+        },
+        // POPULATING ALL GERNES
+        getApiGenres(mediaUrl) {
+            urlPrefix = 'https://api.themoviedb.org/3/' + mediaUrl
+            axios.get(urlPrefix, {
+                params: {
+                    api_key: '60978fe417c91cef357193610fbcdac9',
+                    language: this.lang,
+                }
+            })
+                .then( valid => {
+                    // handle success
+                    this.allGenres = valid.data.genres
+                })
+                .catch( invalid => {
+                    // handle error
+                    console.log(invalid);
+                })
         },
         // GET API
         getApi( mediaUrl ) {
@@ -118,7 +146,6 @@ const boolFlix = new Vue ({
             }
 
             this.filterContent = el.toLowerCase()
-            console.log(this.filterContent);
 
         },
         changeLang(el) {
@@ -140,6 +167,9 @@ const boolFlix = new Vue ({
             }
             this.indexFilm = ''
         },
+        // ciao(){
+        //     console.log(this.genreSelected);
+        // }
     },
 
 });
