@@ -4,99 +4,101 @@
 
 const boolFlix = new Vue ({
 
-    el: ('#boolFlix'),
+    el: ('#boolflix'),
 
     data: {
 
-        search:'',
-        // DEFAULT LISTS
-        movieList: [],
-        tvList: [],
-        allStarred: [],
-        // DEFAULT LANGUAGE
-        language: 'it',
+        // HEADER INDEX
+        navIndex: '',
+        // LANGUAGES
+        lang: 'it',
+
+        // HEADER MENU
+        headerMenu: [
+            {
+                item: 'Home',
+                icon: 'fas fa-home',
+            },
+            {
+                item: 'Film',
+                icon: 'fas fa-film',
+            },
+            {
+                item: 'Serie Tv',
+                icon: 'fas fa-tv',
+            },
+            {
+                item: 'Genere',
+                icon: 'fas fa-sort-amount-down-alt',
+                dropdown: []
+            },
+            {
+                item: 'Lingua',
+                icon: 'fas fa-language',
+                dropdown: [ 'IT', 'EN', 'DE', ]
+            },
+        ],
+
+        filterContent: '',
+
+        // RESET ARRAY
+        filmList: null,
+        tvsList: null,
+
+        indexFilm: '',
+        indexTvs: '',
+
+        // FLAGS
         languages:[ 'it', 'en', 'de'],
 
-        // FILTER
-        filterSelected: 'all',
+        // SET SEARCH INPUT
+        search: '',
 
-        tvsVisible: true,
-        moviesVisible: true,
 
-        indexTvs: '',
-        indexMovies: '',
 
-        provola: false,
+    },
+
+    created() {
     },
 
     methods: {
-        indexActiveTvs(index) {
-            if ( this.indexTvs === index ) {
-                this.indexTvs = ''
-            } else {
-                this.indexTvs = index
-            }
-            this.indexMovies = ''
-        },
-        indexActiveMovies(index) {
-            if ( this.indexMovies === index ) {
-                this.indexMovies = ''
-            } else {
-                this.indexMovies = index
-            }
-            this.indexTvs = ''
-        },
-        // FILTER SEARCH AND CLEAN INPUT
-        filterSearchDone(){
-            this.filterSearch();
-            this.search = '';
-        },
         // FILTER SEARCH
         filterSearch(){
             if ( this.search.length >= 3 ) {
-                this.movies()
+                this.films()
                 this.tvs()
             }
         },
-        // MOVIES
-        movies() {
-            axios.get('https://api.themoviedb.org/3/search/movie', {
+        // POPOLATING FILM LIST
+        films() {
+            this.getApi('search/movie')
+        },
+        // POPOLATING TVS LIST
+        tvs() {
+            this.getApi('search/tv')
+        },
+        // GET API
+        getApi( mediaUrl ) {
+            urlPrefix = 'https://api.themoviedb.org/3/' + mediaUrl
+            axios.get(urlPrefix, {
                 params: {
                     api_key: '60978fe417c91cef357193610fbcdac9',
-                    language: this.language,
+                    language: this.lang,
                     query: this.search
                 }
             })
-            .then( valid => {
-                // handle success
-                this.movieList = valid.data.results;
-
-                this.movieList.forEach( el => {
-                    
-                });
-            })
-            .catch( invalid => {
-                // handle error
-                console.log(invalid);
-            })
-        },
-        // TV SERIES
-        tvs() {
-            axios.get('https://api.themoviedb.org/3/search/tv', {
-                params: {
-                    api_key: '60978fe417c91cef357193610fbcdac9',
-                    language: this.language,
-                    query: this.search,
-                }
-            })
-            .then( valid => {
-                // handle success
-                this.tvList = valid.data.results;
-            })
-            .catch( invalid => {
-                // handle error
-                console.log(invalid);
-            })
+                .then( valid => {
+                    // handle success
+                    if ( mediaUrl === 'search/movie' ) {
+                        this.filmList = valid.data.results
+                    } else if ( mediaUrl === 'search/tv' ) {
+                        this.tvsList = valid.data.results
+                    }
+                })
+                .catch( invalid => {
+                    // handle error
+                    console.log(invalid);
+                })
         },
         // SET VOTE FROM 1 TO 5
         getValutation(vote) {
@@ -104,19 +106,39 @@ const boolFlix = new Vue ({
         },
         // SET DYNAMICALLY FLAGS
         checkLanguage( el ) {
-              return this.languages.includes( el.original_language ) ? true : false
+            return this.languages.includes( el.original_language ) ? true : false
         },
-        showAll() {
-          this.moviesVisible = true
-          this.tvsVisible = true
+        // SHOW DROPDOWN
+        showDropdown( el, index) {
+
+            if ( this.navIndex === '' ) {
+                this.navIndex = index
+            } else {
+                this.navIndex = ''
+            }
+
+            this.filterContent = el.toLowerCase()
+            console.log(this.filterContent);
+
         },
-        showMovie() {
-            this.moviesVisible = true
-            this.tvsVisible = false
+        changeLang(el) {
+            this.lang = el.toLowerCase()
         },
-        showTvs() {
-            this.moviesVisible = false
-            this.tvsVisible = true
+        readDescriptionFilm(index) {
+            if ( this.indexFilm === index ) {
+                this.indexFilm = ''
+            } else {
+                this.indexFilm = index
+            }
+            this.indexTvs = ''
+        },
+        readDescriptionTvs(index) {
+            if ( this.indexTvs === index ) {
+                this.indexTvs = ''
+            } else {
+                this.indexTvs = index
+            }
+            this.indexFilm = ''
         },
     },
 

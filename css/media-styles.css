@@ -1,0 +1,151 @@
+/* MEDIA ELEMENTS STYLE */
+
+.media-row {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+
+/* SLIDER CONTAINER */
+
+.media-container {
+    color: #fff;
+    flex-grow: 1;
+}
+
+.media-container h4 {
+    margin: 15px 35px 5px;
+}
+
+/* SLIDER */
+
+.media-slider {
+    position: relative;
+    overflow-x: scroll;
+}
+
+.media-slider .media {
+    display: inline-flex;
+}
+
+/* MEDIA ITES */
+
+.media-item {
+    position: relative;
+    margin: 15px 20px 50px;
+    transition: transform 350ms;
+}
+
+.media-item .title,
+.media-item .original-title,
+.media-item .vote-average,
+.media-item .flag,
+.media-item .read-more,
+.media-item .description {
+    display: none;
+}
+
+.img-cover .cover-img {
+    height: 450px;
+    border-radius: 20px;
+    box-shadow: 0px 26px 30px -10px rgba(0, 0, 0, 0.8), 0px 16px 10px -10px rgba(0, 0, 0, 0.72);
+    transform: scale(1, 1);
+    transition: box-shadow 350ms linear,
+                transform 350ms cubic-bezier(0,1.85,.98,1.31),
+                filter 200ms linear;
+}
+
+.media-item:hover .cover-img,
+.img-cover:hover .cover-img  {
+    box-shadow: 0px 20px 30px -10px rgba(0, 0, 0, 0.8), 0px 10px 12px -10px rgba(0, 0, 0, 0.72);
+    transform: scale(1.06, 1.06);
+}
+
+.media-item:hover .cover-img {
+    filter: opacity(.3);
+}
+
+.media-item:hover .title,
+.media-item:hover .original-title,
+.media-item:hover .vote-average,
+.media-item:hover .flag,
+.media-item:hover .read-more {
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.media-item:hover .title {
+    top: 20px;
+    font-size: 22px;
+}
+
+.media-item:hover .original-title {
+    top: 70px;
+    color: rgba(150, 150, 150, .9);
+    font-size: 16px;
+}
+
+.media-item:hover .vote-average {
+    top: auto;
+    bottom: 65px;
+    height: auto;
+}
+
+.media-item:hover .flag {
+    top: auto;
+    left: 50%;
+    transform: translateX( -50% );
+    bottom: 20px;
+    height: auto;
+    width: 100%;
+}
+
+.media-item:hover .flag img {
+    width: 30px;
+}
+
+.media-item:hover p {
+    position: absolute;
+    left: 50%;
+    bottom: 15px;
+    transform: translateX(-50%);
+    width: 100%;
+}
+
+.media-item:hover .read-more {
+    left: 55px;
+    bottom: 10px;
+    top: auto;
+    color: #fff;
+    cursor: pointer;
+}
+
+.media-item:hover .description {
+    display: none;
+}
+
+.media-item.more-info {
+    transform: rotateY(180deg);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.media-item.more-info .hover-info {  
+    opacity: .1;
+}
+
+.media-item.more-info .description {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 20px;
+    text-align: center;
+    transform: rotateY( -180deg );
+    cursor: pointer;
+}
