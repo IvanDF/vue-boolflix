@@ -2,9 +2,14 @@
  * BOOLFLIX
  *************/
 
-const boolFlix = new Vue ({
 
-    el: ('#boolflix'),
+/****************************
+ * SLIDER
+ ***************************/
+
+const booleanTv = new Vue ({
+
+    el: ('#boolean-tv'),
 
     data: {
 
@@ -53,6 +58,39 @@ const boolFlix = new Vue ({
         allGenres: [],
         genreSelected: 'All',
 
+        /******************
+        * MEDIA SLIDER
+        *****************/
+
+        indexMedia: 0,
+
+        mediaList: [
+            {
+                cover: './img/slider/tf1.mp4',
+                title: './img/slider/tf1.png'
+            },
+            {
+                cover: './img/slider/tf2.mp4',
+                title: './img/slider/tf2.png'
+            },
+            {
+                cover: './img/slider/tf3.mp4',
+                title: './img/slider/tf3.png'
+            },
+            {
+                cover: './img/slider/tf4.mp4',
+                title: './img/slider/tf4.png'
+            },
+            {
+                cover: './img/slider/tf5.mp4',
+                title: './img/slider/tf5.png'
+            },
+            {
+                cover: './img/slider/tf6.mp4',
+                title: './img/slider/tf6.png'
+            },
+        ],
+
 
         // FLAGS
         languages:[ 'it', 'en', 'de'],
@@ -66,8 +104,14 @@ const boolFlix = new Vue ({
 
         setTimeout(() => {
             this.headerMenu.dropdownGenre = this.allGenres
-            console.log(this.allGenres);
         }, 300);
+
+
+        /******************
+         * MEDIA SLIDER
+        *****************/
+        
+        this.startSlider()
 
     },
 
@@ -78,6 +122,11 @@ const boolFlix = new Vue ({
                 this.films()
                 this.tvs()
             }
+        },
+        // FILTER SEARCH AND CLEAN INPUT
+        filterSearchClear(){
+            this.filterSearch();
+            this.search = '';
         },
         // POPULATING FILM LIST
         films() {
@@ -121,6 +170,7 @@ const boolFlix = new Vue ({
                         this.filmList = valid.data.results
                     } else if ( mediaUrl === 'search/tv' ) {
                         this.tvsList = valid.data.results
+                        console.log(this.tvsList);
                     }
                 })
                 .catch( invalid => {
@@ -167,9 +217,34 @@ const boolFlix = new Vue ({
             }
             this.indexFilm = ''
         },
-        // ciao(){
-        //     console.log(this.genreSelected);
-        // }
+        /******************
+         * MEDIA SLIDER
+         *****************/
+        prev(){
+            this.indexMedia --;
+
+            if ( this.indexMedia < 0 ) {
+                this.indexMedia = this.mediaList.length -1;
+            }
+        },
+        next(){
+            this.indexMedia ++;
+
+            if ( this.indexMedia > this.mediaList.length - 1 ) {
+                this.indexMedia = 0;
+            }
+        },
+        navCircle( index ) {
+            this.indexMedia = index;
+        },
+        startSlider() {
+            this.intervalId = setInterval(() => {
+                this.next()
+            }, 5000);
+        },
+        stopSlider() {
+            clearInterval(this.intervalId);
+        },
     },
 
 });

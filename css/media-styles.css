@@ -14,7 +14,8 @@
 }
 
 .media-container h4 {
-    margin: 15px 35px 5px;
+    margin: 15px 80px 0px;
+    font-size: 20px;
 }
 
 /* SLIDER */
@@ -32,82 +33,144 @@
 
 .media-item {
     position: relative;
-    margin: 15px 20px 50px;
+    margin: 20px 10px 50px;
     transition: transform 350ms;
 }
 
-.media-item .title,
-.media-item .original-title,
-.media-item .vote-average,
-.media-item .flag,
-.media-item .read-more,
-.media-item .description {
+.media-item:first-child {
+    margin-left: 80px;
+}
+
+.media-item .hover-info {
     display: none;
+    transition: transform 360ms cubic-bezier(0,1.85,.98,1),
 }
 
 .img-cover .cover-img {
-    height: 450px;
+    height: 400px;
     border-radius: 20px;
     box-shadow: 0px 26px 30px -10px rgba(0, 0, 0, 0.8), 0px 16px 10px -10px rgba(0, 0, 0, 0.72);
     transform: scale(1, 1);
     transition: box-shadow 350ms linear,
-                transform 350ms cubic-bezier(0,1.85,.98,1.31),
+                transform 350ms cubic-bezier(0,1.85,.98,1),
                 filter 200ms linear;
 }
 
 .media-item:hover .cover-img,
 .img-cover:hover .cover-img  {
     box-shadow: 0px 20px 30px -10px rgba(0, 0, 0, 0.8), 0px 10px 12px -10px rgba(0, 0, 0, 0.72);
-    transform: scale(1.06, 1.06);
+    transform: scale(1.04, 1.04);
+    cursor: pointer;
 }
 
-.media-item:hover .cover-img {
-    filter: opacity(.3);
-}
-
-.media-item:hover .title,
-.media-item:hover .original-title,
-.media-item:hover .vote-average,
-.media-item:hover .flag,
-.media-item:hover .read-more {
-    display: block;
+.media-item:hover .hover-info {
     position: absolute;
-    top: 10px;
+    bottom: 0;
     left: 0;
+    transform: scale(1.05, 1.05);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     width: 100%;
-    text-align: center;
+    height: 60%;
+    padding: 20px 10px;
+    margin: 0;
+    border-radius: 20px;
+    background: linear-gradient( rgba(0,0,0,0), #000 )
 }
 
-.media-item:hover .title {
-    top: 20px;
-    font-size: 22px;
+.media-item:hover .hover-info .title,
+.media-item:hover .hover-info .original-title {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.media-item:hover .hover-info .original-title {
+    padding-bottom: 10px;
+    color:rgba(255, 255, 255, 0.65);
 }
 
-.media-item:hover .original-title {
-    top: 70px;
-    color: rgba(150, 150, 150, .9);
+.flag img {
+    width: 20px;
+}
+
+/*************************
+ * TOP RATED SECTION 
+*************************/
+
+.top-rated .media-item {
+    width: 600px;
+    display: flex;
+    border-radius: 20px;
+    box-shadow: 0px 26px 30px -10px rgba(0, 0, 0, 0.8), 0px 16px 10px -10px rgba(0, 0, 0, 0.72);
+}
+
+.top-rated .img-cover {
+    position: relative;
+    height: 400px;
+    border-radius: 20px;
+}
+
+.top-rated .tr-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    top: 0;
+    left: 300px;
+}
+
+.top-rated .tr-info h3 {
+    font-size: 28px;
+}
+
+.top-rated .tr-info h5 {
+    display: inline-flex;
+    margin: 5px 0 ;
+    color: rgba(255,255,255,.5);
+}
+
+.top-rated .tr-info .overview h6 {
+    position: relative;
     font-size: 16px;
+    margin-bottom: 10px;
 }
 
-.media-item:hover .vote-average {
-    top: auto;
-    bottom: 65px;
-    height: auto;
+.top-rated .tr-info .overview h6::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100px;
+    height: 2px;
+    background: rgba(255, 255, 255, .5);
+    border-radius: 2px;
 }
 
-.media-item:hover .flag {
-    top: auto;
-    left: 50%;
-    transform: translateX( -50% );
-    bottom: 20px;
-    height: auto;
+.top-rated .tr-info .overview-txt {
+    height: 100px;
+    margin: 5px 0;
+    overflow-y: scroll;
+    text-overflow: ellipsis;
+    color: rgba(255,255,255,.5);
+}
+/* 
+.top-rated .tr-info .flag {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 20px;
+    overflow: hidden;
+    opacity: .3;
+}
+
+.top-rated .tr-info .flag img {
     width: 100%;
-}
+} */
 
-.media-item:hover .flag img {
-    width: 30px;
-}
-
+/* 
 .media-item:hover p {
     position: absolute;
     left: 50%;
@@ -148,4 +211,4 @@
     text-align: center;
     transform: rotateY( -180deg );
     cursor: pointer;
-}
+} */
