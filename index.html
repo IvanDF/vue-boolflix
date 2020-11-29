@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BoolFlix</title>
+    <title>boolean tv</title>
     <!-- ICON -->
     <link rel="icon" href="./img/favicon.svg">
+    <!-- FONT -->
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;700&display=swap" rel="stylesheet">
     <!-- FONTAWESOME -->
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.css'/>
     <!-- UTILITIES -->
@@ -78,14 +81,26 @@
                                 >
                                 <ul class="dropdown-list" >
                                     <li class="dropdown-item" 
-                                    v-for=" langItem in el.dropdown " 
-                                    >
+                                        v-for=" langItem in el.dropdown " 
+                                        >
                                        <a href="#" @click.prevent @click="changeLang(langItem), filterSearch()" > {{ langItem }} </a> 
                                     </li>
                                 </ul>
                             </div>
                         </li>
+                        <li class="list-item">
+                            <div class="genre">
+                                <i class="fas fa-list"></i>
+                                <select v-model="genreSelected">
+                                    <option value="all" selected disabled> Generi </option>
+                                    <option value="all"> Tutti </option>
+                                    <option v-for="el in allGenres" :value="el.id"> {{el.name}} </option>
+                                </select>
+                                <i class="arw-dwn fas fa-arrow-down"></i>
+                            </div>
+                        </li>
                     </ul>
+        
                 </div>
                 <!-- NAVBAR SEARCH & CTA -->
                 <div class="nav-right">
@@ -100,14 +115,8 @@
         <!-- MAIN SECTION -->
         <main class="main-section">
 
-            <!-- <div class="genre">
-                <select v-model="genreSelected" @change="ciao">
-                    <option value="all" disabled> Seleziona il genrere </option>
-                    <option v-for="el in allGenres" :value="el.id"> {{el.name}} </option>
-                </select>
-            </div> -->
-
             <!-- HERO SLIDER -->
+            <h1 class="hero-title"> MARATONA DI TRANSFORMERS? </h1>
             <section class="hero"
                 @mouseenter="stopSlider"
                 @mouseleave="startSlider"
@@ -137,10 +146,10 @@
             <!-- TOP RATED -->
             <section class="top-rated">
                 <div class="media-container">
-                    <h4 v-show="filmList !== null">TOP RATED FILMS & TV SERIES</h4>
+                    <h4 v-show="filmList !== null">FILM & SERIE TV PIÙ APPREZZATI</h4>
                     <div class="media-slider">
                         <div class="media">
-                            <div v-for="(media, index) in filmList" class="media-item" v-if="getValutation(media.vote_average) >= 4" >
+                            <div v-for="(media, index) in filmList" class="media-item" v-if="getValutation(media.vote_average) >= 4" v-show="filterContent !== 'serie tv'">
                                 <div class="img-cover">
                                     <img class="cover-img" v-if="media.poster_path" :src="`https://image.tmdb.org/t/p/original${media.poster_path}`" :alt="media.original_title">
                                     <img class="cover-img" v-else src="https://www.altavod.com/assets/images/poster-placeholder.png" :alt="media.original_title">
@@ -162,7 +171,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-for="(media, index) in tvsList" :class="['media-item', indexFilm === index ? 'more-info' : '']" v-if="getValutation(media.vote_average) >= 4" >
+                            <div v-for="(media, index) in tvsList" class="media-item" v-if="getValutation(media.vote_average) >= 4" v-show="filterContent !== 'film'">
                                 <div class="img-cover">
                                     <img class="cover-img" v-if="media.poster_path" :src="`https://image.tmdb.org/t/p/original${media.poster_path}`" :alt="media.original_title">
                                     <img class="cover-img" v-else src="https://www.altavod.com/assets/images/poster-placeholder.png" :alt="media.original_title">
@@ -203,10 +212,10 @@
             <!-- FILMS -->
             <section class="media-row" v-show=" filterContent !== 'serie tv' ">
                 <div class="media-container">
-                    <h4 v-show=" filmList !== null " >FILMS</h4>
+                    <h4 v-show=" filmList !== null " >FILM</h4>
                     <div class="media-slider">
                         <div class="media">
-                            <div v-for="(media, index) in filmList" :class="['media-item', indexFilm === index ? 'more-info' : '']">
+                            <div v-for="(media, index) in filmList" :class="['media-item', indexFilm === index ? 'more-info' : '']" v-if="filterGenre(media.genre_ids)">
                                 <div class="img-cover">
                                     <img class="cover-img" v-if="media.poster_path" :src="`https://image.tmdb.org/t/p/original${media.poster_path}`" :alt="media.original_title">
                                     <img class="cover-img" v-else src="https://www.altavod.com/assets/images/poster-placeholder.png" :alt="media.original_title">
@@ -226,13 +235,7 @@
                                             Original language: {{ media.original_language }}
                                         </p>
                                     </div>
-                                    <span class="read-more" v-if="media.overview"  @click="readDescriptionFilm(index)">
-                                        Read more ->
-                                    </span>
                                 </div>
-                                <!-- <div class="description" @click="readDescriptionFilm(index)">
-                                    {{ media.overview }} 
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -241,10 +244,10 @@
             <!-- TV SERIES -->
             <section class="media-row" v-show=" filterContent !== 'film' ">
                 <div class="media-container">
-                    <h4 v-show=" tvsList !== null ">TV SERIES</h4>
+                    <h4 v-show=" tvsList !== null ">SERIE TV</h4>
                     <div class="media-slider">
                         <div class="media">
-                            <div v-for="(media, index) in tvsList" :class="['media-item', indexTvs === index ? 'more-info' : '']">
+                            <div v-for="(media, index) in tvsList" :class="['media-item', indexTvs === index ? 'more-info' : '']" v-if="filterGenre(media.genre_ids)">
                                 <div class="img-cover">
                                     <img class="cover-img" v-if="media.poster_path" :src="`https://image.tmdb.org/t/p/original${media.poster_path}`" :alt="media.original_title">
                                     <img class="cover-img" v-else src="https://www.altavod.com/assets/images/poster-placeholder.png" :alt="media.original_title">
@@ -264,13 +267,7 @@
                                             Original language: {{ media.original_language }}
                                         </p>
                                     </div>
-                                    <span class="read-more" v-if="media.overview"  @click="readDescriptionTvs(index)">
-                                        Read more ->
-                                    </span>
                                 </div>
-                                <!-- <div class="description" @click="readDescriptionTvs(index)">
-                                    {{ media.overview }} 
-                                </div> -->
                             </div>
                         </div>
                     </div>

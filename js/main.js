@@ -56,7 +56,7 @@ const booleanTv = new Vue ({
         indexTvs: '',
 
         allGenres: [],
-        genreSelected: 'All',
+        genreSelected: 'all',
 
         /******************
         * MEDIA SLIDER
@@ -101,11 +101,6 @@ const booleanTv = new Vue ({
 
         this.getApiGenres('genre/movie/list');
         this.getApiGenres('genre/tv/list');
-
-        setTimeout(() => {
-            this.headerMenu.dropdownGenre = this.allGenres
-        }, 300);
-
 
         /******************
          * MEDIA SLIDER
@@ -201,22 +196,35 @@ const booleanTv = new Vue ({
         changeLang(el) {
             this.lang = el.toLowerCase()
         },
-        readDescriptionFilm(index) {
-            if ( this.indexFilm === index ) {
-                this.indexFilm = ''
-            } else {
-                this.indexFilm = index
+        filterGenre( genreId ){
+
+            if ( this.genreSelected === 'all' ) {
+                return true
             }
-            this.indexTvs = ''
-        },
-        readDescriptionTvs(index) {
-            if ( this.indexTvs === index ) {
-                this.indexTvs = ''
+
+            if ( genreId.includes(this.genreSelected) ) {
+                return true
             } else {
-                this.indexTvs = index
+                return false
             }
-            this.indexFilm = ''
+
         },
+        // readDescriptionFilm(index) {
+        //     if ( this.indexFilm === index ) {
+        //         this.indexFilm = ''
+        //     } else {
+        //         this.indexFilm = index
+        //     }
+        //     this.indexTvs = ''
+        // },
+        // readDescriptionTvs(index) {
+        //     if ( this.indexTvs === index ) {
+        //         this.indexTvs = ''
+        //     } else {
+        //         this.indexTvs = index
+        //     }
+        //     this.indexFilm = ''
+        // },
         /******************
          * MEDIA SLIDER
          *****************/

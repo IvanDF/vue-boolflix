@@ -45,9 +45,6 @@ body {
 .navbar a {
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 2.5px;
 }
 
 .navbar a span {
@@ -72,12 +69,6 @@ body {
     width: 110%;
     height: 10px;
     background: rgba(255, 255, 255, .55);
-}
-
-.navbar a i {
-    position: relative;
-    top: 2px;
-    font-size: 20px;
 }
 
 /* LISTS */
@@ -147,6 +138,7 @@ h4 {
 
 h5 {
     font-size: 16px;
+    font-weight: 300;
 }
 
 h6 {
@@ -209,7 +201,7 @@ li.mobile-only {
 
 /* TABLET UP TO 1024px */
 
-@media screen and ( max-width: 1024px ) {
+@media screen and ( max-width: 1160px ) {
 
     /* NAVBAR */
     .navbar {   

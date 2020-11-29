@@ -46,11 +46,16 @@
     transition: transform 360ms cubic-bezier(0,1.85,.98,1),
 }
 
+.media-item .vote-average {
+    color: gold;
+}
+
 .img-cover .cover-img {
     height: 400px;
     border-radius: 20px;
     box-shadow: 0px 26px 30px -10px rgba(0, 0, 0, 0.8), 0px 16px 10px -10px rgba(0, 0, 0, 0.72);
     transform: scale(1, 1);
+    cursor: pointer;
     transition: box-shadow 350ms linear,
                 transform 350ms cubic-bezier(0,1.85,.98,1),
                 filter 200ms linear;
@@ -67,17 +72,18 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    transform: scale(1.05, 1.05);
     display: flex;
+    width: 100%;
+    height: 80%;
+    padding: 20px 10px;
+    margin: 0;
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-end;
-    width: 100%;
-    height: 60%;
-    padding: 20px 10px;
-    margin: 0;
     border-radius: 20px;
-    background: linear-gradient( rgba(0,0,0,0), #000 )
+    background: linear-gradient( rgba(0,0,0,0), #000 );
+    transform: scale(1.05, 1.05);
+    cursor: pointer;
 }
 
 .media-item:hover .hover-info .title,
@@ -87,9 +93,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .media-item:hover .hover-info .original-title {
     padding-bottom: 10px;
     color:rgba(255, 255, 255, 0.65);
+}
+
+.media-item .vote-average {
+    margin-top: 20px;
 }
 
 .flag img {
@@ -156,59 +167,3 @@
     text-overflow: ellipsis;
     color: rgba(255,255,255,.5);
 }
-/* 
-.top-rated .tr-info .flag {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 20px;
-    overflow: hidden;
-    opacity: .3;
-}
-
-.top-rated .tr-info .flag img {
-    width: 100%;
-} */
-
-/* 
-.media-item:hover p {
-    position: absolute;
-    left: 50%;
-    bottom: 15px;
-    transform: translateX(-50%);
-    width: 100%;
-}
-
-.media-item:hover .read-more {
-    left: 55px;
-    bottom: 10px;
-    top: auto;
-    color: #fff;
-    cursor: pointer;
-}
-
-.media-item:hover .description {
-    display: none;
-}
-
-.media-item.more-info {
-    transform: rotateY(180deg);
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.media-item.more-info .hover-info {  
-    opacity: .1;
-}
-
-.media-item.more-info .description {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    padding: 20px;
-    text-align: center;
-    transform: rotateY( -180deg );
-    cursor: pointer;
-} */
